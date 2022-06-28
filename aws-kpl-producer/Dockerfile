@@ -1,31 +1,37 @@
-FROM alpine:latest as packager
+FROM eclipse-temurin:11-jre-alpine
+RUN apk add --update && \
+   apk upgrade --no-cache --available
 
-RUN apk --no-cache add openjdk11-jdk openjdk11-jmods
+ENTRYPOINT java -jar /home/ubuntu/embeed_connect/aws-kpl-producer/target/aws-kpl-producer-jar-with-dependencies.jar
 
-ENV JAVA_MINIMAL="/opt/java-minimal"
+# FROM alpine:latest as packager
 
-EXPOSE 3306
+# RUN apk --no-cache add openjdk11-jdk openjdk11-jmods
 
+# ENV JAVA_MINIMAL="/opt/java-minimal"
 
-# build minimal JRE
-RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
-    --verbose \
-    --add-modules \
-        java.base,java.sql,java.naming,java.desktop,java.management,java.security.jgss,java.instrument \
-    --compress 2 --strip-debug --no-header-files --no-man-pages \
-    --release-info="add:IMPLEMENTOR=radistao:IMPLEMENTOR_VERSION=radistao_JRE" \
-    --output "$JAVA_MINIMAL"
-
-RUN cat > log.dat
-RUN cat > offset.dat
+# EXPOSE 3306
 
 
-FROM alpine:latest
+# # build minimal JRE
+# RUN /usr/lib/jvm/java-11-openjdk/bin/jlink \
+#     --verbose \
+#     --add-modules \
+#         java.base,java.sql,java.naming,java.desktop,java.management,java.security.jgss,java.instrument \
+#     --compress 2 --strip-debug --no-header-files --no-man-pages \
+#     --release-info="add:IMPLEMENTOR=radistao:IMPLEMENTOR_VERSION=radistao_JRE" \
+#     --output "$JAVA_MINIMAL"
 
-ENV JAVA_HOME=/opt/java-minimal
-ENV PATH="$PATH:$JAVA_HOME/bin"
+# RUN cat > log.dat
+# RUN cat > offset.dat
 
-COPY --from=packager "$JAVA_HOME" "$JAVA_HOME"
-COPY build/libs/application.jar app.jar
 
-ENTRYPOINT ["java","-jar","app.jar"]
+# FROM alpine:latest
+
+# ENV JAVA_HOME=/opt/java-minimal
+# ENV PATH="$PATH:$JAVA_HOME/bin"
+
+# COPY --from=packager "$JAVA_HOME" "$JAVA_HOME"
+# COPY build/libs/application.jar app.jar
+
+# ENTRYPOINT ["java","-jar","app.jar"]
