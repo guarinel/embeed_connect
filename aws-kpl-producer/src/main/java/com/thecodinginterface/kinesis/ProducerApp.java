@@ -154,14 +154,14 @@ public class ProducerApp implements Runnable{
     @Override 
     public void run(){
 
-        var producerConfig = new KinesisProducerConfiguration().setRegion(region);
+        // var producerConfig = new KinesisProducerConfiguration().setRegion(region);
 
-        // instantiate KPL client
-        this.producer = new KinesisProducer(producerConfig);
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            logger.info("Shutting down program");
-            producer.flush();
-        }, "producer-shutdown"));
+        // // instantiate KPL client
+        // this.producer = new KinesisProducer(producerConfig);
+        // Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+        //     logger.info("Shutting down program");
+        //     producer.flush();
+        // }, "producer-shutdown"));
 
         customconnector = customerConnector();
         engine = create_engine(customconnector);
