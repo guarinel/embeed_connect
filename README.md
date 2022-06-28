@@ -1,6 +1,7 @@
 # embeed_connect
 # RUN LOCAL
 docker build -t aws-kpl-producer:latest .
+
 sudo docker run -p 3306 --env-file my-env.txt aws-kpl-producer:latest
 
 
