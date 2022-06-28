@@ -15,6 +15,9 @@ import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 
 import io.debezium.config.Configuration;
 import io.debezium.engine.DebeziumEngine;
@@ -28,8 +31,6 @@ import org.apache.kafka.connect.data.SchemaBuilder;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.json.JsonConverter;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
 
 public class ProducerApp implements Runnable{
     static final Logger logger = LogManager.getLogger(ProducerApp.class);
@@ -51,7 +52,7 @@ public class ProducerApp implements Runnable{
         String db_HOST = System.getenv("db_mysql_HOST");
         String db_PASSWORD = System.getenv("db_mysql_PASSWORD");
         String db_USER = System.getenv("db_mysql_USER");
-
+        
 
         Configuration config = io.debezium.config.Configuration.create()
             .with("name", "customer-mysql-connector")
@@ -173,6 +174,7 @@ public class ProducerApp implements Runnable{
         this.executor.execute(engine);
         this.executor.shutdown();// the submitted task keeps running, only no more new ones can be added
     }
+// export JAVA_TOOL_OPTIONS="-Xmx1024m"
 
  
     public static void main(String[] args) {
