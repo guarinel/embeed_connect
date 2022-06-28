@@ -53,9 +53,9 @@ public class ProducerApp implements Runnable{
         String db_PASSWORD = System.getenv("db_mysql_PASSWORD");
         String db_USER = System.getenv("db_mysql_USER");
         
-
         Configuration config = io.debezium.config.Configuration.create()
             .with("name", "customer-mysql-connector")
+            .with("offset.storage", "org.apache.kafka.connect.storage.FileOffsetBackingStore")
             .with("connector.class", "io.debezium.connector.mysql.MySqlConnector")
             .with("offset.storage.file.filename","offsets.dat")
             .with("offset.flush.interval.ms", "60000")
@@ -182,3 +182,12 @@ public class ProducerApp implements Runnable{
 
     }
 }
+// export db_mysql_HOST=database-2.cj12lwz0yxns.us-east-1.rds.amazonaws.com
+// export db_mysql_PORT=3306
+// export db_mysql_USER=admin
+// export db_mysql_PASSORD=dgp7hbm7
+
+// echo db_mysql_HOST=database-2.cj12lwz0yxns.us-east-1.rds.amazonaws.com > my-env.txt
+// echo db_mysql_PORT=3306 >> my-env.txt
+// echo db_mysql_USER=admin >> my-env.txt
+// echo db_mysql_PASSWORD=dgp7hbm7 >> my-env.txt

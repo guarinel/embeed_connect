@@ -1,0 +1,4 @@
+db_mysql_HOST=database-2.cj12lwz0yxns.us-east-1.rds.amazonaws.com
+db_mysql_PORT=3306
+db_mysql_USER=admin
+db_mysql_PASSWORD=dgp7hbm7
