@@ -48,12 +48,21 @@ public class ProducerApp implements Runnable{
     DebeziumEngine<RecordChangeEvent<SourceRecord>> engine; 
 
     public io.debezium.config.Configuration customerConnector() {
+        String db_PORT = System.getenv("db_mysql_PORT");
+        String db_HOST = System.getenv("db_mysql_HOST");
+        String db_PASSWORD = System.getenv("db_mysql_PASSWORD");
+        String db_USER = System.getenv("db_mysql_USER");
+        
 
-        Configuration config = io.debezium.config.Configuration.empty().withSystemProperties(Function.identity()).edit()
+        Configuration config = io.debezium.config.Configuration.create()
             .with("name", "customer-mysql-connector")
             .with("connector.class", "io.debezium.connector.mysql.MySqlConnector")
             .with("offset.storage.file.filename","offsets.dat")
             .with("offset.flush.interval.ms", "60000")
+            .with("database.hostname", db_HOST)
+            .with("database.port", db_PORT)
+            .with("database.user",  db_USER)
+            .with("database.password", db_PASSWORD)
             .with("include.schema.changes", "false")
             .with("database.allowPublicKeyRetrieval", "true")
             .with("database.server.id", "85744")
