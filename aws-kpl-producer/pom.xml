@@ -14,6 +14,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <database.hostname>${env.db_mysql_HOST}</database.hostname>
+        <database.port>${env.db_mysql_PORT}</database.port>
+        <database.user>${env.db_mysql_USER}</database.user>
+        <database.password>${env.db__mysql_PASSWORD}</database.password>
+
+        <version.debezium>1.9.4.Final</version.debezium>
+
     </properties>
 
     <dependencies>
@@ -36,17 +44,17 @@
         <dependency>
             <groupId>io.debezium</groupId>
             <artifactId>debezium-api</artifactId>
-            <version>1.9.4.Final</version>
+            <version>${version.debezium}</version>
         </dependency>
          <dependency>
             <groupId>io.debezium</groupId>
             <artifactId>debezium-embedded</artifactId>
-            <version>1.9.4.Final</version>
+            <version>${version.debezium}</version>
         </dependency>
         <dependency>
             <groupId>io.debezium</groupId>
             <artifactId>debezium-connector-mysql</artifactId>
-            <version>1.9.4.Final</version>
+            <version>${version.debezium}</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
@@ -75,6 +83,24 @@
                 <configuration>
                     <argLine>-Xmx1536</argLine>
                     <mainClass>com.thecodinginterface.kinesis.ProducerApp</mainClass>
+                    <systemProperties>
+                        <systemProperty>
+                            <key>database.hostname</key>
+                            <value>${database.hostname}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <key>database.port</key>
+                            <value>${database.port}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <key>database.user</key>
+                            <value>${database.user}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <key>database.password</key>
+                            <value>${database.password}</value>
+                        </systemProperty>
+                    </systemProperties>
                 </configuration>
             </plugin>
             <plugin>
