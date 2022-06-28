@@ -73,6 +73,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
+                    <argLine>-Xmx1024m</argLine>
                     <mainClass>com.thecodinginterface.kinesis.ProducerApp</mainClass>
                 </configuration>
             </plugin>
