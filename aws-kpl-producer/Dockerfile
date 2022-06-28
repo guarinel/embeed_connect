@@ -1,8 +1,8 @@
 FROM eclipse-temurin:11-jre-alpine
-RUN apk add --update && \
-   apk upgrade --no-cache --available
 
-ENTRYPOINT java -jar /home/ubuntu/embeed_connect/aws-kpl-producer/target/aws-kpl-producer-jar-with-dependencies.jar
+COPY /home/ubuntu/embeed_connect/aws-kpl-producer/target/aws-kpl-producer-jar-with-dependencies.jar app.jar
+
+ENTRYPOINT ["java","-jar","app.jar"] 
 
 # FROM alpine:latest as packager
 
