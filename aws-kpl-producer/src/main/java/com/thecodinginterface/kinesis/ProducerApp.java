@@ -15,6 +15,9 @@ import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Future;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 
 import io.debezium.config.Configuration;
 import io.debezium.engine.DebeziumEngine;
@@ -28,8 +31,6 @@ import org.apache.kafka.connect.data.SchemaBuilder;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.json.JsonConverter;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
 
 public class ProducerApp implements Runnable{
     static final Logger logger = LogManager.getLogger(ProducerApp.class);
@@ -48,15 +49,11 @@ public class ProducerApp implements Runnable{
 
     public io.debezium.config.Configuration customerConnector() {
 
-        Configuration config = io.debezium.config.Configuration.create()
+        Configuration config = io.debezium.config.Configuration.empty().withSystemProperties(Function.identity()).edit()
             .with("name", "customer-mysql-connector")
             .with("connector.class", "io.debezium.connector.mysql.MySqlConnector")
             .with("offset.storage.file.filename","offsets.dat")
             .with("offset.flush.interval.ms", "60000")
-            .with("database.hostname", "database-2.cj12lwz0yxns.us-east-1.rds.amazonaws.com")
-            .with("database.port", "3306")
-            .with("database.user",  "admin")
-            .with("database.password", "dgp7hbm7")
             .with("include.schema.changes", "false")
             .with("database.allowPublicKeyRetrieval", "true")
             .with("database.server.id", "85744")
@@ -168,6 +165,7 @@ public class ProducerApp implements Runnable{
         this.executor.execute(engine);
         this.executor.shutdown();// the submitted task keeps running, only no more new ones can be added
     }
+// export JAVA_TOOL_OPTIONS="-Xmx1024m"
 
  
     public static void main(String[] args) {
