@@ -1,6 +1,6 @@
 FROM eclipse-temurin:11-jre-alpine
 
-COPY /home/ubuntu/embeed_connect/aws-kpl-producer/target/aws-kpl-producer-jar-with-dependencies.jar app.jar
+COPY target/aws-kpl-producer-jar-with-dependencies.jar app.jar
 
 ENTRYPOINT ["java","-jar","app.jar"] 
 
